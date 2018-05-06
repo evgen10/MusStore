@@ -1,0 +1,65 @@
+﻿@model IEnumerable<StoreModel.Models.MainCategory>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Создать категорию", "CreateMainCategory")
+</p>
+<p>
+    @Html.ActionLink("Создать подкатегорию", "CreateSubCategory")
+</p>
+<table class="table" border="1">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+
+                <ul>
+                    <li>
+                        @item.CategoryName
+                        <ul>
+                            @foreach (var i in item.SubCategories)
+                {
+
+                    <li>@i.CategoryName</li>
+
+    }
+                        </ul>
+                    </li>
+                </ul>
+                <p>
+                    @Html.ActionLink("Создать подкатегорию", "CreateSubCategory", new { mainCategoryId = item.Id})
+                </p>
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditMainCategory", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "DeleteMainCategory", new { id = item.Id })
+
+                <br />
+                @foreach (var i in item.SubCategories)
+                {
+                    @Html.ActionLink("Edit", "EditSubCategory", new { id = i.Id })  @:|
+
+                    @Html.ActionLink("Delete", "DeleteSubCategory", new { id = i.Id })
+                    <br />
+                    
+                }
+
+             
+            </td>
+        </tr>
+    }
+ 
+
+</table>

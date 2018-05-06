@@ -1,0 +1,16 @@
+D:\Программирование\EPAM2018\MusStore\StoreModel\bin\Debug\StoreModel.dll.config
+D:\Программирование\EPAM2018\MusStore\StoreModel\bin\Debug\StoreModel.dll
+D:\Программирование\EPAM2018\MusStore\StoreModel\bin\Debug\StoreModel.pdb
+D:\Программирование\EPAM2018\MusStore\StoreModel\bin\Debug\EntityFramework.dll
+D:\Программирование\EPAM2018\MusStore\StoreModel\bin\Debug\EntityFramework.SqlServer.dll
+D:\Программирование\EPAM2018\MusStore\StoreModel\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+D:\Программирование\EPAM2018\MusStore\StoreModel\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Программирование\EPAM2018\MusStore\StoreModel\bin\Debug\EntityFramework.xml
+D:\Программирование\EPAM2018\MusStore\StoreModel\bin\Debug\EntityFramework.SqlServer.xml
+D:\Программирование\EPAM2018\MusStore\StoreModel\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+D:\Программирование\EPAM2018\MusStore\StoreModel\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Программирование\EPAM2018\MusStore\StoreModel\obj\Debug\StoreModel.csprojResolveAssemblyReference.cache
+D:\Программирование\EPAM2018\MusStore\StoreModel\obj\Debug\StoreModel.csproj.CoreCompileInputs.cache
+D:\Программирование\EPAM2018\MusStore\StoreModel\obj\Debug\StoreModel.csproj.CopyComplete
+D:\Программирование\EPAM2018\MusStore\StoreModel\obj\Debug\StoreModel.dll
+D:\Программирование\EPAM2018\MusStore\StoreModel\obj\Debug\StoreModel.pdb

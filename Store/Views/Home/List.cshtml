@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Store.Models.ProductViewModel>
+
+
+
+<section class="product-container ">
+    <h2>@ViewBag.Category.ToString()</h2>
+    <ul class="main-product-view">
+        @*@{ Html.RenderPartial("Index"); }*@
+
+
+
+
+        @foreach (var product in Model)
+        {
+            <li class="product-item">
+                <div class="image-wrapper">
+                    @if (product.Image.Count() == 0)
+                    {
+                        <img src="~/Content/Img/undefined.png" class="product-img" />
+                    }
+                    else
+                    {
+                        <img src="@Url.Action("GetImage", "Product", new { product.Id })" class="product-img" />
+                    }
+                </div>
+                <h3 class="product-title">@Html.ActionLink(@product.Title, "Details", "Product", new { id = product.Id }, null)</h3>
+                <div class="post-body">
+                    <p class="short-description">@Html.Raw(product.BrandName)</p>
+                    <p class="price">@product.Price</p>
+                    @Html.ActionLink("Add to cart", "AddProductToCart", "Cart", new { productid = product.Id }, new { @class = "btn btn-primary" })
+                </div>
+            </li>
+        }
+    </ul>
+    <div class="main-product-bar"></div>
+
+
+    @*<table class="table">
+            <tr>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.BrandName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Discription)
+                </th>
+                <th>
+
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (item.Image.Length == 0)
+                        {
+
+                            <img class="img-thumbnail" width="250" height="250" src="~/Content/Img/undefined.png" />
+                        }
+                        else
+                        {
+                            <img class="img-thumbnail" width="250" height="250" src="@Url.Action("GetImage", "Product", new { item.Id })" />
+                        }
+
+
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BrandName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Discription)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "Product", new { id = item.Id }, null) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", "Product", new { id = item.Id }, null)   |
+                        @Html.ActionLink("Add to cart", "AddProductToCart", "Cart", new { productId = item.Id }, new { @class = "btn btn-default" })
+                    </td>
+
+                </tr>
+            }
+
+        </table>*@
+
+</section>

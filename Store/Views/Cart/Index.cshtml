@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Store.Models.CartViewModel>
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutWithoutMenu.cshtml";
+}
+
+
+<h2>Корзина</h2>
+
+
+
+@if (Model.Count() != 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Brand)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreateDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Count)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cost)
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Brand)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreateDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Count)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cost)
+                    </td>
+                    <td>                        
+                        @Html.ActionLink("Delete", "DeleteOrder", new { id = item.Id }, new { @class = "btn btn-danger btn-xs" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5">Итого:</td>
+                <td>@ViewBag.TotalCost</td>
+            </tr>
+        </tfoot>
+
+    </table>
+
+
+    <p class="actionButtons">
+        @Html.ActionLink("Оформить", "Checkout", null, new { @class = "btn btn-success" })
+        @Html.ActionLink("Продолжить покупку", "Index", "Home", null, new { @class = "btn btn-primary" })
+
+    </p>
+}
+else
+{
+
+    <h3>В вашей корзине нет товаров!</h3>
+
+    @Html.ActionLink("Вернуться к покупкам", "Index", "Home", null, new { @class = "btn btn-primary" })
+
+
+}
+
+

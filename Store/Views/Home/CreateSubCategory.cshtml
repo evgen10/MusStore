@@ -1,0 +1,21 @@
+﻿@model StoreModel.Models.SubCategory
+
+@{
+    ViewBag.Title = "CreateSubCategory";
+}
+
+<h2>CreateSubCategory</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(m => m.CategoryName)
+    @Html.EditorFor(m => m.CategoryName)
+
+
+    @Html.DropDownListFor(m => m.MainCategoryId, ViewBag.MainCategory as SelectList)
+
+    <input type="submit" value="Добавить" />
+
+}
+
+

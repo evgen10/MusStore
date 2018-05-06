@@ -1,0 +1,27 @@
+﻿@model StoreModel.Models.MainCategory
+
+
+@{
+    ViewBag.Title = "CreateCategory";
+}
+
+<h2>CreateCategory</h2>
+
+
+
+
+
+
+@using (Html.BeginForm())
+{
+
+    @Html.LabelFor(m => m.CategoryName, "Category");
+    @Html.EditorFor(m => m.CategoryName);
+
+    <br /><br />
+    <input type="submit" value="Добавить" />
+
+
+
+}
+

@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (ViewBag.Users != null)
+{
+
+
+foreach (var user in ViewBag.Users)
+{
+    if (user.Orders.Count != 0)
+    {
+        <div>
+            @user.FirstName
+        </div>
+        /* @Html.Partial("Orders", new { userId = user.Id});*/
+        <div>
+            @Html.Action("Orders", "Manage", new { userId = user.Id })
+        </div>
+
+        <div>
+            @Html.ActionLink("Поддвердить заказ", "Confirm", new { userId = user.Id })
+        </div>
+
+    }
+
+
+
+}
+
+}
+else  
+{
+    <h2>Заказов нет</h2>
+}
+

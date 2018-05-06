@@ -1,0 +1,70 @@
+﻿@model StoreModel.Models.Brand
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+<h3>@Html.DisplayNameFor(model => model.Name)</h3>
+<h3>@Html.DisplayFor(model => model.Name)</h3>
+
+
+
+@if (Model.Products.Count > 0)
+{
+    <h3> При удалении данного бренда будут удалены следующие продукты: </h3>
+
+    <div>
+
+        <table class="table">
+            <tr>
+                <th></th>
+                <th>
+                    Название
+                </th>
+                <th>
+                    Подкатегория
+                </th>
+                <th>
+
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.Products)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubCategory.CategoryName)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "Product", new { id = item.Id }, null) |
+                    </td>
+
+                </tr>
+            }
+
+        </table>
+
+    </div>
+
+}
+
+<h3>Вы действительно хотите удалить данный бренд?</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <input type="submit" value="Удалить" />
+    @Html.ActionLink("Back to List", "Index", new { @class = "btn btn-default" })
+}
+
+<div>
+
+</div>

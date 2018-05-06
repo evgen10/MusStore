@@ -1,0 +1,61 @@
+﻿@model IEnumerable<StoreModel.Models.MainCategory>
+
+<head>
+    <link href="~/Content/list-products.css" rel="stylesheet" type="text/css" />
+</head>
+
+@*<div class="box-content">
+        @foreach (var item in Model)
+        {
+            <ul id="subnav"  >
+
+                <li>
+                    @item.CategoryName
+                    <ul id="subnav" >
+                        @foreach (var i in item.SubCategories)
+                        {
+                            <li>
+                                @Html.ActionLink(i.CategoryName, "List", "Home", new { id = i.Id }, null);
+
+
+                            </li>
+                        }
+                    </ul>
+                </li>
+            </ul>
+        }
+    </div>*@
+
+
+@*<main>
+    <aside>
+        *@<nav>         
+            @foreach (var item in Model)
+            {
+                <ul id="subnav">
+
+                    <li>
+                        @item.CategoryName
+                        <ul id="subnav">
+                            @foreach (var i in item.SubCategories)
+                            {
+                                <li>
+                                    @Html.ActionLink(i.CategoryName, "List", "Home", new { id = i.Id }, null);
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
+            }
+        </nav>
+    @*</aside>
+    <section class="product-container ">
+        <ul class="main-product-view">
+            @{ Html.RenderPartial("Index"); }
+        </ul>
+        <div class="main-product-bar"></div>
+    </section>
+</main>*@
+
+
+

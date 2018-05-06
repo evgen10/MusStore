@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Store.Models.OrderViewModel>
+
+@{
+    ViewBag.Title = "OredrList";
+}
+<table>
+    <tr>
+        <td>Пользователь</td>
+        <td>Товар</td>
+        <td>Дата заказа</td>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.UserName</td>
+            <td>@item.ProductName</td>
+            <td>@item.DataCreate</td>
+
+        </tr>
+    }
+</table>
+
+
+

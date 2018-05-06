@@ -1,0 +1,25 @@
+﻿
+.reg-item {
+    margin-bottom: 10px;
+}
+.image-wrapper {
+    display: flex;
+    float: left;
+    width: 150px; 
+    height: 150px; 
+    overflow: hidden;
+    border: 1px dashed #808080;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.create-product.image-wrapper {
+    margin-right: 25px;
+}
+
+#file {
+    width: auto;
+    height: 100%;
+    margin: auto;
+}
+

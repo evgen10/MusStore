@@ -1,0 +1,93 @@
+﻿@model Store.Models.ProductViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div class="product-form form-group">
+    <h2 class="page-details">Product details</h2>
+    <section class="product-details">
+        <article class="product">
+            <div class="image-wrapper">
+                @if (Model.Image.Count() == 0)
+                {
+                    <img src="~/Content/Img/undefined.png" class="product-img" />
+                }
+                else
+                {
+                    <img src="@Url.Action("GetImage", "Product", new { Model.Id })" class="product-img" />
+                }
+            </div>
+            <div class="product-info">
+                <h3 class="title">Title: @Model.Title</h3>
+                <p class="description">Description: @Model.Description</p>
+
+                <p class="product-price">Price: @Model.Price</p>
+
+                <p class="product-categories">@Model.SubCategoryName</p>
+            </div>
+        </article>
+    </section>
+    @if (User.IsInRole("Administrator"))
+    {
+        <div class="button-group">
+            @Html.ActionLink("Edit", "Edit", "Product", new { id = Model.Id }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Delete", "Delete", "Product", new { id = Model.Id }, new { @class = "btn btn-primary" })
+        </div>
+    }
+
+</div>
+
+@*<h2>Details</h2>
+
+    <div>
+        <h4>ProductViewModel</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SubCategoryName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SubCategoryName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.BrandName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.BrandName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Discription)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Discription)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@

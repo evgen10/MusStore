@@ -1,0 +1,17 @@
+﻿@model IEnumerable<StoreModel.Models.SubCategory>
+
+
+<select id="subCategory"  name="SubCategoryId">
+
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.CategoryName</option>
+    }
+
+</select>
+
+
+
+
+
+

@@ -1,0 +1,32 @@
+﻿@model StoreModel.Models.Product
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+
+    @Html.LabelFor(m => m.Title);
+    @Html.EditorFor(m => m.Title);
+
+
+    @Html.LabelFor(m => m.Price);
+    @Html.EditorFor(m => m.Price);
+
+    @Html.LabelFor(m => m.SubCategory);
+
+
+
+    @Html.DropDownListFor(m => m.SubCategoryId, ViewBag.Category as SelectList);
+    @Html.DropDownListFor(m => m.BrandId, ViewBag.Brand as SelectList)
+
+    <input type="submit" value="Добавить" />
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

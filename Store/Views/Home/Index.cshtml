@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Store.Models.ProductViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Популярные</h2>
+
+<section class="product-container ">
+    <h2>@ViewBag.Category</h2>
+    <ul class="main-product-view">
+        @*@{ Html.RenderPartial("Index"); }*@
+
+
+
+
+        @foreach (var product in Model)
+        {
+            <li class="product-item">
+                <div class="image-wrapper">
+                    @if (product.Image.Count() == 0)
+                    {
+                        <img src="~/Content/Img/undefined.png" class="product-img" />
+                    }
+                    else
+                    {
+                        <img src="@Url.Action("GetImage", "Product", new { product.Id })" class="product-img" />
+                    }
+                </div>
+                <h3 class="product-title">@Html.ActionLink(@product.Title, "Details", "Product", new { id = product.Id }, null)</h3>
+                <div class="post-body">
+                    <p class="short-description">@Html.Raw(product.BrandName)</p>
+                    <p class="price">@product.Price</p>
+                    @Html.ActionLink("Add to cart", "AddProductToCart", "Cart", new { productid = product.Id }, new { @class = "btn btn-default" })
+                </div>
+            </li>
+        }
+    </ul>
+    <div class="main-product-bar"></div>
+
+</section>
