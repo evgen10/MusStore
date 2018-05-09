@@ -3,36 +3,38 @@
 
 
 
-<table>
+<table class="table table-striped">
 
     <tr>
-      
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th>@Html.DisplayName("Название товара")</th>
+        <th>@Html.DisplayName("Дата заказа")</th>
+        <th>@Html.DisplayName("Количество")</th>
+        <th>@Html.DisplayName("Цена")</th>
+        <th>@Html.DisplayName("Стоймось")</th>
     </tr>
 
     @foreach (var order in Model)
     {
 
         <tr>
-            
-            <td>@order.Product.Title.ToString()</td>
-            <td>@order.OrderDate</td>
-            <td>@order.Count</td>
-            <td>@order.Product.Price</td>
-            <td>@order.Cost</td>
+            <td>@Html.DisplayFor(model => order.Product.Title)</td>
+            <td>@Html.DisplayFor(model => order.OrderDate)</td>
+            <td>@Html.DisplayFor(model => order.Count)</td>
+            <td>@Html.DisplayFor(model => order.Product.Price)</td>
+            <td>@Html.DisplayFor(model => order.Cost)</td>
         </tr>
 
     }
 
+    <tfoot>
+        <tr>
+            <td colspan="4">Итого:</td>
+            <td>@ViewBag.TotalCost</td>
+        </tr>
+    </tfoot>
+
 </table>
 
-<div>
-    @ViewBag.TotalCost
-</div>
 
 
 

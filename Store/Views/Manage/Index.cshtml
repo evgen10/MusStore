@@ -1,36 +1,49 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutWithoutMenu.cshtml";
 }
+
+
+<h1>Управление заказами</h1>
+
+<div>
+@Html.ActionLink("Подтвержденные заказы", "GetConfirmedOrders", null, new { @class = "btn btn-primary" })
+    </div>
+
+
 
 @if (ViewBag.Users != null)
 {
+    foreach (var user in ViewBag.Users)
+    {   
+              
+
+        if (user.Orders.Count != 0)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+
+                    @Html.ActionLink((string)user.FirstName, "UserInfo", new { id = user.Id })
+                </div>
 
 
-foreach (var user in ViewBag.Users)
-{
-    if (user.Orders.Count != 0)
-    {
-        <div>
-            @user.FirstName
-        </div>
-        /* @Html.Partial("Orders", new { userId = user.Id});*/
-        <div>
-            @Html.Action("Orders", "Manage", new { userId = user.Id })
-        </div>
+                @Html.Action("Orders", "Manage", new { userId = user.Id })
+            </div>
 
-        <div>
-            @Html.ActionLink("Поддвердить заказ", "Confirm", new { userId = user.Id })
-        </div>
+            <div>
+                @Html.ActionLink("Поддвердить заказ", "Confirm", new { userId = user.Id }, new { @class = "btn btn-success" })
+            </div>
+
+            <br />
+        }
+
+
 
     }
 
-
-
 }
-
-}
-else  
+else
 {
     <h2>Заказов нет</h2>
 }

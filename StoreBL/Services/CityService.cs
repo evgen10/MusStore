@@ -25,5 +25,14 @@ namespace StoreBL.Services
         {
             return db.Cities.GetAll();
         }
+
+
+
+
+        public void Dispose()
+        {
+            db.Dispose();
+        }
+
     }
 }

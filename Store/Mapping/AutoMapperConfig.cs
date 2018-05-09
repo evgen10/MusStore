@@ -27,7 +27,8 @@ namespace Store.Mapping
                  .ForMember("SubCategoryName", opt => opt.MapFrom(p => p.SubCategory.CategoryName));
 
 
-                 cnf.CreateMap<RegisterViewModel, ApplicationUser>();
+                 cnf.CreateMap<RegisterViewModel, ApplicationUser>()
+                 .ForMember("PhoneNumber", opt => opt.MapFrom(u=>u.Phone));
 
                  cnf.CreateMap<Brand, BrandViewModel>();
                  cnf.CreateMap<BrandViewModel, Brand>();

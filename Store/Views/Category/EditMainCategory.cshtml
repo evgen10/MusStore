@@ -2,16 +2,18 @@
 
 @{
     ViewBag.Title = "EditMainCategory";
+    Layout = "~/Views/Shared/_LayoutWithoutMenu.cshtml";
 }
 
-<h2>EditMainCategory</h2>
+
+<h2>Изменить категорию</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>EditCategoryViewModel</h4>
+     
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
@@ -26,12 +28,11 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+                @Html.ActionLink("К списку", "Index", null, new { @class = "btn btn-success" })
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+

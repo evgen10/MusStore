@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StoreBL.Services.Interfaces
 {
-    public interface ICityService
+    public interface ICityService : IDisposable
     {
         IEnumerable<City> GetAllCities();
 

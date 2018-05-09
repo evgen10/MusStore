@@ -9,9 +9,11 @@ namespace Store.Models
     public class CreateCategoryViewModel
     {
         [Required]
+        [Display(Name ="Название категории")]
         public string MainCategoryName { get; set; }
         
         [Required]
+        [Display(Name = "Название подкатегории")]
         public string SubCategoryName { get; set; }
 
     }

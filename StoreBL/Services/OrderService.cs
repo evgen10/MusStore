@@ -113,5 +113,12 @@ namespace StoreBL.Services
 
             db.Save();
         }
+
+
+        public void Dispose()
+        {
+            db.Dispose();
+        }
+
     }
 }

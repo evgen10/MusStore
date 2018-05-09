@@ -16,17 +16,12 @@ namespace StoreBL.Services
     public class UserService: IUserService
     {
 
-        private IUnitOfWork db;
+        private readonly IUnitOfWork db;
 
         public UserService(IUnitOfWork unitOfWork)
         {
             db = unitOfWork;
         }
-
-
-
-
-
 
         public async Task<ClaimsIdentity> Authenticate(string email, string password)
         {
@@ -42,10 +37,9 @@ namespace StoreBL.Services
 
         public async Task<OperationDetails> Create(ApplicationUser usr, string password)
         {
-            ApplicationUser user = await db.UserManager.FindByEmailAsync(usr.Email);
-           // var role = db.Roles.Get(r => r.Name == "User");
+            ApplicationUser user = await db.UserManager.FindByEmailAsync(usr.Email);   
 
-            if (user==null)
+            if (user == null)
             {
                 user = new ApplicationUser
                 {
@@ -53,15 +47,12 @@ namespace StoreBL.Services
                     LastName = usr.LastName,
                     Email = usr.Email,
                     Address = usr.Address,
-                    CityId = usr.CityId,                   
-                    UserName = usr.Email      
-                    
-
-
-
+                    CityId = usr.CityId,
+                    UserName = usr.Email,
+                    PhoneNumber = usr.PhoneNumber
                 };
 
-                var  result = await db.UserManager.CreateAsync(user, password);
+                var result = await db.UserManager.CreateAsync(user, password);
 
                 if (!result.Succeeded)
                 {
@@ -69,11 +60,7 @@ namespace StoreBL.Services
                 }
 
                 db.UserManager.AddToRole(user.Id, "User");
-
-
                 db.Save();
-
-             
 
                 return new OperationDetails(true, "Регистрация успешно пройдена", "");
 
@@ -82,42 +69,14 @@ namespace StoreBL.Services
             {
                 return new OperationDetails(false, "Пользователь с таким логином уже существует", "Email");
             }
+            
         }
 
-        #region IDisposable Support
-        private bool disposedValue = false; // Для определения избыточных вызовов
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // TODO: освободить управляемое состояние (управляемые объекты).
-                }
-
-                // TODO: освободить неуправляемые ресурсы (неуправляемые объекты) и переопределить ниже метод завершения.
-                // TODO: задать большим полям значение NULL.
-
-                disposedValue = true;
-            }
-        }
-
-        // TODO: переопределить метод завершения, только если Dispose(bool disposing) выше включает код для освобождения неуправляемых ресурсов.
-        // ~UserService() {
-        //   // Не изменяйте этот код. Разместите код очистки выше, в методе Dispose(bool disposing).
-        //   Dispose(false);
-        // }
-
-        // Этот код добавлен для правильной реализации шаблона высвобождаемого класса.
         public void Dispose()
         {
-            // Не изменяйте этот код. Разместите код очистки выше, в методе Dispose(bool disposing).
-            Dispose(true);
-            // TODO: раскомментировать следующую строку, если метод завершения переопределен выше.
-            // GC.SuppressFinalize(this);
+            db.Dispose();
         }
-        #endregion
 
 
 
@@ -147,6 +106,7 @@ namespace StoreBL.Services
 
         }
        
+
 
     }
 

@@ -20,6 +20,7 @@ namespace StoreBL.Services
             db = unitOfWork;
         }
 
+     
         public void CreateBrand(Brand brand)
         {
             db.Brands.Create(brand);
@@ -34,6 +35,7 @@ namespace StoreBL.Services
 
         }
 
+        
         public bool Exists(Brand brand)
         {
             var br = db.Brands.Get(b => b.Name.Equals(brand.Name));
@@ -68,5 +70,13 @@ namespace StoreBL.Services
             db.Brands.Update(brnd);
 
         }
+
+
+
+        public void Dispose()
+        {
+            db.Dispose();
+        }
+
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StoreBL.Services.Interfaces
 {
-    public interface IOrderService
+    public interface IOrderService : IDisposable
     {
         void AddToCart(Product product, string userId);
         void RemoveOrder(Order order);

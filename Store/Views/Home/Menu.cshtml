@@ -40,7 +40,7 @@
                             @foreach (var i in item.SubCategories)
                             {
                                 <li>
-                                    @Html.ActionLink(i.CategoryName, "List", "Home", new { id = i.Id }, null);
+                                    @Html.ActionLink(i.CategoryName, "List", "Home", new { id = i.Id }, null)
                                 </li>
                             }
                         </ul>

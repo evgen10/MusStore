@@ -2,64 +2,72 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutWithoutMenu.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Управление категориями</h2>
 
-<p>
-    @Html.ActionLink("Создать категорию", "CreateMainCategory")
-</p>
-<p>
-    @Html.ActionLink("Создать подкатегорию", "CreateSubCategory")
-</p>
-<table class="table" border="1">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CategoryName)
-        </th>
-        <th></th>
-    </tr>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>Список категорий</h3>
 
-    @foreach (var item in Model)
-    {
+    </div>
+
+
+
+    <table class="table table-striped">
         <tr>
-            <td>
-
-                <ul>
-                    <li>
-                        @item.CategoryName
-                        <ul>
-                            @foreach (var i in item.SubCategories)
-                {
-
-                    <li>@i.CategoryName</li>
-
-    }
-                        </ul>
-                    </li>
-                </ul>
-                <p>
-                    @Html.ActionLink("Создать подкатегорию", "CreateSubCategory", new { mainCategoryId = item.Id})
-                </p>
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "EditMainCategory", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "DeleteMainCategory", new { id = item.Id })
-
-                <br />
-                @foreach (var i in item.SubCategories)
-                {
-                    @Html.ActionLink("Edit", "EditSubCategory", new { id = i.Id })  @:|
-
-                    @Html.ActionLink("Delete", "DeleteSubCategory", new { id = i.Id })
-                    <br />
-                    
-                }
-
-             
-            </td>
+            <th>
+                @Html.DisplayName("Название")
+            </th>
+            <th></th>
         </tr>
-    }
- 
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <ul>
+                        <li>
+                            @item.CategoryName
+
+                            <ul>
+                                @foreach (var i in item.SubCategories)
+                                {
+
+                                    <li>@i.CategoryName</li>
+
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>
+                        @Html.ActionLink("Создать подкатегорию", "CreateSubCategory", new { mainCategoryId = item.Id } , new { @class=" btn btn-primary" })
+                    </p>
+                </td>
+                <td>
+                    @Html.ActionLink("Изменить", "EditMainCategory", new { id = item.Id }, new {  @class="btn btn-primary btn-xs "} ) |
+                    @Html.ActionLink("Удалить", "DeleteMainCategory", new { id = item.Id }, new { @class = "btn btn-danger btn-xs" })
+
+                    <br />
+                    @foreach (var i in item.SubCategories)
+                    {
+                        @Html.ActionLink("Изменить", "EditSubCategory", new { id = i.Id } ,  new { @class = "btn btn-primary btn-xs " }) @:|
+
+                        @Html.ActionLink("Удалить", "DeleteSubCategory", new { id = i.Id }, new { @class = "btn btn-danger btn-xs" })
+                        <br />
+
+                    }
+
+                </td>
+            </tr>
+        }
+
+
+    </table>
+
+</div>
+
+<p>
+    @Html.ActionLink("Создать категорию", "CreateMainCategory", null, new { @class = "btn btn-success" })
+</p>

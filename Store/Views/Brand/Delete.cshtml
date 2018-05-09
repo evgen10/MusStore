@@ -2,23 +2,24 @@
 
 @{
     ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutWithoutMenu.cshtml";
 }
 
 
-<h3>@Html.DisplayNameFor(model => model.Name)</h3>
-<h3>@Html.DisplayFor(model => model.Name)</h3>
 
+<div>
+<h4>@Html.DisplayName("Название")</h4>
+<h2>@Html.DisplayFor(model => model.Name)</h2>
 
 
 @if (Model.Products.Count > 0)
 {
     <h3> При удалении данного бренда будут удалены следующие продукты: </h3>
 
-    <div>
+    <div class="panel panel-default">
 
-        <table class="table">
-            <tr>
-                <th></th>
+        <table class="table table-striped">
+            <tr>                
                 <th>
                     Название
                 </th>
@@ -43,7 +44,7 @@
                     </td>
 
                     <td>
-                        @Html.ActionLink("Edit", "Edit", "Product", new { id = item.Id }, null) |
+                        @Html.ActionLink("Изменить", "Edit", "Product", new { id = item.Id }, new {  @class= "btn btn-primary btn-xs" }) 
                     </td>
 
                 </tr>
@@ -54,17 +55,14 @@
     </div>
 
 }
-
+    </div>
 <h3>Вы действительно хотите удалить данный бренд?</h3>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <input type="submit" value="Удалить" />
-    @Html.ActionLink("Back to List", "Index", new { @class = "btn btn-default" })
+    <input type="submit" value="Удалить" class="btn btn-danger" />
+    @Html.ActionLink("К списку", "Index",null , new { @class = "btn btn-success" })
 }
 
-<div>
-
-</div>

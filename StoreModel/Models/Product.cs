@@ -12,6 +12,7 @@ namespace StoreModel.Models
         public Product()
         {
             CreationDate = DateTime.Now;
+            Orders = new List<Order>();
 
         }
 

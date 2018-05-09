@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StoreBL.Services.Interfaces
 {
-    public interface ICategoryService
+    public interface ICategoryService : IDisposable
     {
         void CreateMainCategory(MainCategory mainCategory);
         void CreateSubCategory(SubCategory subCategory);

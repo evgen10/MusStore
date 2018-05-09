@@ -2,16 +2,17 @@
 
 @{
     ViewBag.Title = "CreateMainCategory";
+    Layout = "~/Views/Shared/_LayoutWithoutMenu.cshtml";
 }
 
-<h2>CreateMainCategory</h2>
+<h2>Добавить категорию</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>CreateCategoryViewModel</h4>
+         <h4>Заполните все поля</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -32,12 +33,11 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Создать" class="btn btn-primary" />
+                @Html.ActionLink("К списку", "Index",null,new {@class= "btn btn-success" })
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+

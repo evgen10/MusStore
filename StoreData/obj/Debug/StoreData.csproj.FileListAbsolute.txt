@@ -30,3 +30,38 @@ D:\Программирование\EPAM2018\MusStore\StoreData\obj\Debug\StoreD
 D:\Программирование\EPAM2018\MusStore\StoreData\obj\Debug\StoreData.csproj.CopyComplete
 D:\Программирование\EPAM2018\MusStore\StoreData\obj\Debug\StoreData.dll
 D:\Программирование\EPAM2018\MusStore\StoreData\obj\Debug\StoreData.pdb
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\StoreData.dll.config
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\StoreData.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\StoreData.pdb
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\EntityFramework.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Microsoft.Owin.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Microsoft.Owin.Security.Cookies.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Microsoft.Owin.Security.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Microsoft.Owin.Security.OAuth.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Newtonsoft.Json.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Owin.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\StoreModel.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\StoreModel.pdb
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\StoreModel.dll.config
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\EntityFramework.xml
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Microsoft.Owin.xml
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Microsoft.Owin.Security.xml
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Microsoft.Owin.Security.Cookies.xml
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Microsoft.Owin.Security.OAuth.xml
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\Newtonsoft.Json.xml
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\ru\Microsoft.AspNet.Identity.Core.resources.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\ru\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\bin\Debug\ru\Microsoft.AspNet.Identity.Owin.resources.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\obj\Debug\StoreData.csprojResolveAssemblyReference.cache
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\obj\Debug\StoreData.csproj.CoreCompileInputs.cache
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\obj\Debug\StoreData.csproj.CopyComplete
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\obj\Debug\StoreData.dll
+C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\obj\Debug\StoreData.pdb

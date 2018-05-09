@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StoreBL.Services.Interfaces
 {
-    public interface IBrandService
+    public interface IBrandService : IDisposable
     {
         void CreateBrand(Brand brand);
         void UpdateBrand(Brand brand);

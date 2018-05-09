@@ -8,8 +8,12 @@ namespace StoreModel.Models
 {
     public class Brand
     {
+        public Brand()
+        {
+            Products = new List<Product>();
+        }
 
-        public int Id { get; set; }
+        public int Id { get; set; } 
         public string Name { get; set; }
         public virtual ICollection<Product> Products { get; set; }
 

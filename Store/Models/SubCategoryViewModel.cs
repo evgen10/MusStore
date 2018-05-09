@@ -12,6 +12,7 @@ namespace Store.Models
         public int Id { get; set; }
 
         [Required]
+        [Display(Name ="Категория")]
         public int MainCategoryId { get; set; }
 
         [Required]

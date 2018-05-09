@@ -6,11 +6,12 @@ using System.Web;
 
 namespace Store.Models
 {
-    public class ProductEditViewModle
+    public class ProdukctEditViewModle
     {
         [Required]
         public int SubCategoryId { get; set; }
 
+        [Required]
         public int MainCategoryId { get; set; }
 
         [Required]
@@ -30,7 +31,7 @@ namespace Store.Models
         [Required]
         public int Count { get; set; }
 
-       // public ICollection<ProductImage> ProductImages { get; set; }
+      
 
 
 

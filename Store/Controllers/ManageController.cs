@@ -19,16 +19,11 @@ namespace Store.Controllers
         ByProduct,
     }
 
-
+    [Authorize(Roles = "Administrator")]
     public class ManageController : Controller
     {
         private readonly IOrderService orderService;
         private readonly IUserService userService;
-
-
-
-
-
 
         public ManageController(IOrderService orderService, IUserService userService)
         {
@@ -36,15 +31,21 @@ namespace Store.Controllers
             this.userService = userService;
         }
 
+       
         public ActionResult Index()
-        {
-            ///проверить на ноль
+        {            
             var users = userService.GetUsers(OrderStatus.IsOrdered);
 
+            if (users!=null)
+            {
+                ViewBag.Users = users;
 
-            ViewBag.Users = users;
-
-            return View();
+                return View();
+            }
+            else
+            {
+                return View("Error", new string[] { "Покупатели не найдены" });
+            }          
 
         }
 
@@ -56,51 +57,47 @@ namespace Store.Controllers
             {
                 case OrderSorts.ByCount:
                     {
-                        orders = orderService.GetConfirmedOrders().OrderByDescending(o=>o.Count);
+                        orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.Count);
                         break;
                     }
                 case OrderSorts.ByUser:
                     {
-                        orders = orderService.GetConfirmedOrders().OrderByDescending(o=>o.ApplicationUser);
+                        orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.ApplicationUser.FirstName);
                         break;
                     }
                 case OrderSorts.ByCost:
                     {
-                        orders = orderService.GetConfirmedOrders().OrderByDescending(o=>o.Cost);
+                        orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.Cost);
                         break;
                     }
                 case OrderSorts.ByConfirmDate:
                     {
-                        orders = orderService.GetConfirmedOrders().OrderByDescending(o=>o.ConfirmDate);
+                        orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.ConfirmDate);
                         break;
 
                     }
                 case OrderSorts.ByOrderDate:
                     {
-                        orders = orderService.GetConfirmedOrders().OrderByDescending(o=>o.OrderDate);
+                        orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.OrderDate);
                         break;
                     }
                 case OrderSorts.ByProduct:
                     {
-                        orders = orderService.GetConfirmedOrders().OrderByDescending(o=>o.ProductId);
+                        orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.ProductId);
                         break;
                     }
                 default:
                     {
-                        orders = orderService.GetConfirmedOrders().OrderByDescending(o=>o.Count);
+                        orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.Count);
                         break;
                     }
             }
-
-
-           
-
 
             return View(orders);
 
         }
 
-
+        //выводит заказы по определенному покупателю
         public ActionResult Orders(string userId)
         {
             var orders = orderService.GetOrdersByUserId(userId);
@@ -110,6 +107,7 @@ namespace Store.Controllers
             return PartialView(orders);
         }
 
+        //Подтверждает заказы покупателя
         public ActionResult Confirm(string userId)
         {
             var orders = orderService.GetOrdersByUserId(userId);
@@ -119,8 +117,11 @@ namespace Store.Controllers
                 orderService.Confirm(orders);
                 return RedirectToAction("Index");
             }
-
-            return RedirectToAction("Index");
+            else
+            {
+                return View("Error", new string[] { "Покупатель не найден" });
+            }
+            
 
         }
 
@@ -128,14 +129,35 @@ namespace Store.Controllers
         {
             var order = orderService.GetOrderById(id);
 
-            if (order!=null)
+            if (order != null)
             {
                 orderService.RemoveOrder(order);
+            }
+            else
+            {
+                return View("Error", new string[] { "Заказ не найден" });
             }
 
             return RedirectToAction("GetConfirmedOrders");
 
         }
+
+        public ActionResult UserInfo(string id)
+        {
+            var user = userService.GetUserById(id);
+
+            if (user != null)
+            {
+                return View(user);
+            }
+            else
+            {
+                return View("Error", new string[] { "Покупатель на найден" });
+            }
+            
+
+        }
+
 
     }
 }

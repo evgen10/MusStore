@@ -9,12 +9,12 @@ namespace Store.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Пароль")]
         public string Password { get; set; }
 
     }

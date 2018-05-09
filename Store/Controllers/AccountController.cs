@@ -16,15 +16,14 @@ namespace Store.Controllers
 {
     public class AccountController : Controller
     {
-        IUserService userService;
-        ICityService cityService;
+        private readonly IUserService userService;
+        private readonly ICityService cityService;
 
         public AccountController(IUserService userService, ICityService cityService)
         {
             this.userService = userService;
             this.cityService = cityService;
         }
-
 
         public ActionResult Login(string returnUrl)
         {
@@ -55,8 +54,6 @@ namespace Store.Controllers
 
                      return RedirectToLocal(returnUrl);
                 }
-
-
             }
 
             return View(login);
@@ -72,6 +69,7 @@ namespace Store.Controllers
         public ActionResult Register()
         {
             var cities = cityService.GetAllCities();
+
             SelectList city = new SelectList(cities, "Id", "Name");
             ViewBag.City = city;
 
@@ -83,21 +81,10 @@ namespace Store.Controllers
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             ApplicationUser user = Mapper.Map<RegisterViewModel, ApplicationUser>(model);
-            //  await SetInitialDataAsync();
+        
             if (ModelState.IsValid)
-            {
-                //ApplicationUser user = new ApplicationUser
-                //{
-                //    FirstName = model.FirstName,
-                //    LastName = model.LastName,
-
-                //    Email = model.Email,                    
-                //    Address = model.Address,
-
-
-                //};
-                               
-
+            {                          
+                             
                 OperationDetails operationDetails = await userService.Create(user,model.Password);
 
                 if (operationDetails.Succedeed)
@@ -123,8 +110,6 @@ namespace Store.Controllers
             SelectList city = new SelectList(cities, "Id", "Name", user.CityId);
             ViewBag.CityId = city;
 
-
-
             return View(model);
         }
 
@@ -135,31 +120,8 @@ namespace Store.Controllers
                 return Redirect(returnUrl);
             }
             return RedirectToAction("Index", "Home");
-        }
+        }       
 
-        //private async Task SetInitialDataAsync()
-        //{
-        //    await UserService.SetInitialData(new UserDTO
-        //    {
-        //        Email = "somemail@mail.ru",
-        //        UserName = "somemail@mail.ru",
-        //        Password = "ad46D_ewr3",
-        //        Name = "Семен Семенович Горбунков",
-        //        Address = "ул. Спортивная, д.30, кв.75",
-        //        Role = "admin",
-        //    }, new List<string> { "user", "admin" });
-        //}
-
-
-
-
-        //private IUserService UserService
-        //{
-        //    get
-        //    {
-        //        return HttpContext.GetOwinContext().GetUserManager<IUserService>();
-        //    }
-        //}
 
         private IAuthenticationManager AuthenticationManager
         {
@@ -167,9 +129,7 @@ namespace Store.Controllers
             {
                 return HttpContext.GetOwinContext().Authentication;
             }
-        }
-
-
+        }    
 
     }
 }

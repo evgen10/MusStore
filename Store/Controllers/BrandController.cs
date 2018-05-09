@@ -10,6 +10,8 @@ using StoreModel.Models;
 
 namespace Store.Controllers
 {
+
+    [Authorize(Roles ="Administrator")]
     public class BrandController : Controller
     {
         private readonly IBrandService brandService;
@@ -25,7 +27,6 @@ namespace Store.Controllers
 
             var brandModels = Mapper.Map<IEnumerable<Brand>, IEnumerable<BrandViewModel>>(brands);
 
-
             return View(brandModels);
         }
         
@@ -37,14 +38,12 @@ namespace Store.Controllers
         [HttpPost]
         public ActionResult Create(BrandViewModel brand)
         {
-
             var brnd = Mapper.Map<BrandViewModel, Brand>(brand);
 
             if (brandService.Exists(brnd))
             {
                 ModelState.AddModelError("Name", "Объект с таким именем уже существует.");
             }
-
 
             if (ModelState.IsValid)
             {              
@@ -66,16 +65,17 @@ namespace Store.Controllers
                 var brnd = Mapper.Map<Brand, BrandViewModel>(brand);
                 return View(brnd);
             }
-
-            return RedirectToAction("Index", "Brand");
+            else
+            {
+                return View("Error", new string[] { "Бренд не найден" });
+            }
 
         }
         
         [HttpPost]
         public ActionResult Edit(BrandViewModel brand)
-        {     
+        {    
            
-
             if (ModelState.IsValid)
             {
                 var brnd = Mapper.Map<BrandViewModel, Brand>(brand);
@@ -97,8 +97,10 @@ namespace Store.Controllers
             {
                 return View(brand);
             }
-
-            return RedirectToAction("Index");
+            else
+            {
+                return View("Error", new string[] { "Бренд не найден" });
+            }                       
 
         }
 
@@ -114,12 +116,14 @@ namespace Store.Controllers
                 brandService.DeleteBrand(brand);
                
             }
+            else
+            {
+                return View("Error", new string[] { "Бренд не найден" });
+            }
 
             return RedirectToAction("Index");
 
         }
-
-
 
     }
 }

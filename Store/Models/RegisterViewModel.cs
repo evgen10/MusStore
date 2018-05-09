@@ -43,6 +43,7 @@ namespace Store.Models
         [Required]
         [DataType(DataType.Password)]
         [Compare("Password")]
+        [Display(Name = "Подтверждение пароля")]
         public string ConfirmPassword { get; set; }
 
 

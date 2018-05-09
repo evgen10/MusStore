@@ -10,12 +10,12 @@ using System.Web.Mvc;
 namespace Store.Controllers
 {
 
-    [Authorize]
+    [Authorize(Roles ="Administrator")]
     public class ProductController : Controller
     {
-        ICategoryService categoryService;
-        IBrandService brandService;
-        IProductService productService;
+        private readonly ICategoryService categoryService;
+        private readonly IBrandService brandService;
+        private readonly IProductService productService;
 
         public ProductController(ICategoryService categoryService, IBrandService brandService, IProductService productService)
         {
@@ -24,9 +24,14 @@ namespace Store.Controllers
             this.productService = productService;
         }
 
+        //выводит все продукты
         public ActionResult Index()
         {
-            return View();
+            var product = productService.GetAll();
+
+            var prod = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(product);
+
+            return View(prod);
         }
 
         public ActionResult Create()
@@ -71,7 +76,7 @@ namespace Store.Controllers
 
                 productService.CreateProduct(product);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
 
             }
 
@@ -109,11 +114,19 @@ namespace Store.Controllers
 
         public ActionResult Delete(int id)
         {
-            Product product = productService.GetProductById(id);
+            var product = productService.GetProductById(id);
 
-            productService.DeleteProduct(product);
+            if (product!=null)
+            {
+                productService.DeleteProduct(product);
+            }
+            else
+            {
+                return View("Error", new string[] { "Товар не найден" });
+            }
+           
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
             
         }
 
@@ -149,22 +162,22 @@ namespace Store.Controllers
 
                 return View(product);
                 
-            }            
+            }
+            else
+            {
+                return View("Error", new string[] { "Продукт не найден" });
+            }
 
-            return View("Продукт не найден");
+            
         }
         
         [HttpPost]
         public ActionResult Edit(ProductCreateViewModel product, HttpPostedFileBase fileUpload)
-        {            
-
-
-
+        {
+            Product prd = Mapper.Map<ProductCreateViewModel, Product>(product);
 
             if (ModelState.IsValid)
-            {
-
-                Product prd = Mapper.Map<ProductCreateViewModel,Product>(product);
+            {            
                 
                 if (fileUpload!=null)
                 {
@@ -196,8 +209,9 @@ namespace Store.Controllers
             ViewBag.SubCategory = subCategory;
 
             SelectList brand = new SelectList(brands, "Id", "Name", selectedBrandId);
-            ViewBag.Brand = brand;
-            
+            ViewBag.Brand = brand;          
+           
+
             return View(product);
         }
 
@@ -210,6 +224,7 @@ namespace Store.Controllers
         }
 
 
+        [AllowAnonymous]
         public ActionResult Details(int id)
         {
             var product = productService.GetProductById(id);
@@ -221,10 +236,10 @@ namespace Store.Controllers
                 return View(prd);
 
             }
-
-
-            return RedirectToAction("Index", "Home");
-
+            else
+            {
+                return View("Error", new string[] { "Продукт не найден" });
+            }                     
         }
 
     }

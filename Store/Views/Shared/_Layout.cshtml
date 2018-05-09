@@ -33,9 +33,10 @@
                 <ul class="nav navbar-nav">
                     @if (User.IsInRole("Administrator"))
                     {
-                        <li>@Html.ActionLink("Товары", "Create", "Product")</li>
-                        <li>@Html.ActionLink("Бренды", "Create", "Brand")</li>
-                        <li>@Html.ActionLink("Категории", "Create", "Category")</li>
+                        <li>@Html.ActionLink("Товары", "Index", "Product")</li>
+                        <li>@Html.ActionLink("Бренды", "Index", "Brand")</li>
+                        <li>@Html.ActionLink("Категории", "Index", "Category")</li>
+                        <li>@Html.ActionLink("Заказы","Index","Manage")</li>
 
                     }
                 </ul>

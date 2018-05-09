@@ -8,6 +8,12 @@ namespace StoreModel.Models
 {
     public class SubCategory
     {
+
+        public SubCategory()
+        {
+            Products = new List<Product>();
+        }
+
         public int Id { get; set; }
 
         public string CategoryName { get; set; }

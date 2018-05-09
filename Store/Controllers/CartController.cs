@@ -27,63 +27,77 @@ namespace Store.Controllers
         // GET: Cart
         public ActionResult Index()
         {
+            //получаем  id пользователя использующего приложение 
             string userId = User.Identity.GetUserId();
+
             var productsInCart = orderService.GetProductsInCartByUserId(userId);
             var productInCartModel = Mapper.Map<IEnumerable<Order>, IEnumerable<CartViewModel>>(productsInCart);
 
+            ///общая сумма в корзине
             decimal totalCost = productInCartModel.Sum(t => t.Cost);
 
             ViewBag.TotalCost = totalCost;
-            
-            return View(productInCartModel);                  
-            
+
+            return View(productInCartModel);
+
         }
-        
+
         public ActionResult AddProductToCart(int productId)
         {
-            var product = productService.GetProductById(productId);
             string userId = User.Identity.GetUserId();
+
+            var product = productService.GetProductById(productId);
 
             if (product != null)
             {
                 orderService.AddToCart(product, userId);
                 return RedirectToAction("Index");
-                    
+
+            }
+            else
+            {
+                return View("Error", new string[] { "Товар не найден" });
             }
 
-            return HttpNotFound();
         }
 
         public ActionResult DeleteOrder(int id)
         {
-            var order = orderService.GetOrderById(id);            
+            var order = orderService.GetOrderById(id);
 
-            if (order!=null)
+            if (order != null)
             {
                 orderService.RemoveOrder(order);
 
                 return RedirectToAction("Index");
 
             }
+            else
+            {
+                return View("Error", new string[] { "Товар не найден" });
 
-            return RedirectToAction("Index");
-
+            }
         }
 
         public ActionResult Checkout()
         {
             string userId = User.Identity.GetUserId();
+
             var productsInCart = orderService.GetProductsInCartByUserId(userId);
-            
-            if (productsInCart!=null)
+
+            if (productsInCart != null)
             {
                 orderService.Checkout(productsInCart);
                 return View("OrderSucceed");
             }
+            else
+            {
+                return View("Error", new string[] { "Товар не найден" });
 
-            return RedirectToAction("Index");
+            }
+
 
         }
-        
+
     }
 }

@@ -35,7 +35,11 @@ namespace StoreBL.Services
 
         }
 
-               
+        public IEnumerable<Product> GetAll()
+        {
+            return db.Products.GetAll();    
+            
+        }
 
         public Product GetProductById(int productId)
         {
@@ -69,7 +73,7 @@ namespace StoreBL.Services
             Product prd = GetProductById(product.Id);
 
             prd.BrandId = product.BrandId;
-           // prd.Count = product.Count;
+        
             prd.Description = product.Description;
             prd.Price = product.Price;
             prd.SubCategoryId = product.SubCategoryId;
@@ -80,6 +84,13 @@ namespace StoreBL.Services
             db.Products.Update(prd);
             db.Save();
         }
-            
+
+
+
+        public void Dispose()
+        {
+            db.Dispose();
+        }
+
     }
 }

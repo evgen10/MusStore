@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StoreBL.Services.Interfaces
 {
-    public interface IProductService
+    public interface IProductService : IDisposable
     {
         void CreateProduct(Product product);
         void DeleteProduct(Product product);
@@ -18,9 +18,12 @@ namespace StoreBL.Services.Interfaces
 
 
         IEnumerable<Product> GetTopProducts(int count);
-        IEnumerable<Product> GetProductsByCategory(int categoryId);        
+        IEnumerable<Product> GetProductsByCategory(int categoryId);
+        IEnumerable<Product> GetAll();
+
 
         Product GetProductById(int productId);
+
 
    
 

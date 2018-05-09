@@ -1,0 +1,49 @@
+﻿@model StoreModel.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "UserUnfo";
+    Layout = "~/Views/Shared/_LayoutWithoutMenu.cshtml";
+}
+
+<h2>Информация о покупателе</h2>
+
+<div>
+    <h3>@Model.FirstName &nbsp @Model.LastName</h3>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("E-mail")
+        </dt>
+
+        <dd >
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        
+        <dt>
+            @Html.DisplayName("Телефон")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayName("Адрес")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.City.Name)
+
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+     
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Подтвержденные заказы", "GetConfirmedOrders", null, new { @class = "btn btn-success" })
+    @Html.ActionLink("Управление заказами", "Index", null, new { @class = "btn btn-primary" })
+</p>
