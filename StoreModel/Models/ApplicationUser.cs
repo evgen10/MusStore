@@ -13,6 +13,7 @@ namespace StoreModel.Models
         public ApplicationUser()
         {
             Orders = new List<Order>();
+          
         }
 
         public string FirstName { get; set; }

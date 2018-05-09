@@ -17,9 +17,7 @@ namespace StoreModel.Models
 
         public string CategoryName { get; set; }
 
-        public virtual ICollection<SubCategory> SubCategories { get; set; }      
-
-        //public byte[] Image { get; set; }
+        public virtual ICollection<SubCategory> SubCategories { get; set; }   
 
 
 

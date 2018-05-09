@@ -133,8 +133,7 @@ namespace Store.Controllers
 
         public ActionResult Edit(int id)
         {
-            var prd = productService.GetProductById(id);
-                      
+            var prd = productService.GetProductById(id);                      
             
             if (prd!=null)
             {
@@ -174,46 +173,74 @@ namespace Store.Controllers
         [HttpPost]
         public ActionResult Edit(ProductCreateViewModel product, HttpPostedFileBase fileUpload)
         {
-            Product prd = Mapper.Map<ProductCreateViewModel, Product>(product);
-
+            
             if (ModelState.IsValid)
             {            
                 
                 if (fileUpload!=null)
                 {
 
-                    prd.Image = new byte[fileUpload.ContentLength];
-                    fileUpload.InputStream.Read(prd.Image, 0, fileUpload.ContentLength);
+                    product.Image = new byte[fileUpload.ContentLength];
+                    fileUpload.InputStream.Read(product.Image, 0, fileUpload.ContentLength);
 
                 }
+                else
+                {
+                    var p = productService.GetProductById(product.Id);
+
+                    if (p.Image!=null)
+                    {
+                        product.Image = p.Image;
+                    }
+
+
+                }
+
+                Product prd = Mapper.Map<ProductCreateViewModel, Product>(product);
                 
-                productService.UpdateProduct(prd);    
-                           
+                productService.UpdateProduct(prd);
+
+                return RedirectToAction("Index");
             }
-            
-            ViewBag.ProductId = product.Id;
+            else
+            {
+                ViewBag.ProductId = product.Id;
 
-            IEnumerable<MainCategory> categories = categoryService.GetAllMainCategories();
-            int selectedCategoryId = product.MainCategoryId;
+                IEnumerable<MainCategory> categories = categoryService.GetAllMainCategories();
+                int selectedCategoryId = product.MainCategoryId;
 
-            IEnumerable<SubCategory> subCategories = categoryService.GetSubCategoriesByMain(selectedCategoryId);
-            int selectedSubCategoryId = product.SubCategoryId;
+                IEnumerable<SubCategory> subCategories = categoryService.GetSubCategoriesByMain(selectedCategoryId);
+                int selectedSubCategoryId = product.SubCategoryId;
 
-            IEnumerable<Brand> brands = brandService.GetAllBrands();
-            int selectedBrandId = product.BrandId;
+                IEnumerable<Brand> brands = brandService.GetAllBrands();
+                int selectedBrandId = product.BrandId;
 
-            SelectList category = new SelectList(categories, "Id", "CategoryName", selectedCategoryId);
-            ViewBag.Category = category;
+                SelectList category = new SelectList(categories, "Id", "CategoryName", selectedCategoryId);
+                ViewBag.Category = category;
 
-            SelectList subCategory = new SelectList(subCategories, "Id", "CategoryName", selectedSubCategoryId);
-            ViewBag.SubCategory = subCategory;
+                SelectList subCategory = new SelectList(subCategories, "Id", "CategoryName", selectedSubCategoryId);
+                ViewBag.SubCategory = subCategory;
 
-            SelectList brand = new SelectList(brands, "Id", "Name", selectedBrandId);
-            ViewBag.Brand = brand;          
-           
+                SelectList brand = new SelectList(brands, "Id", "Name", selectedBrandId);
+                ViewBag.Brand = brand;
 
-            return View(product);
+                var p = productService.GetProductById(product.Id);
+
+                if (p.Image != null)
+                {
+                    product.Image = p.Image;
+                }
+
+                if (product.Image==null)
+                {
+                    product.Image = new byte[0];
+                }
+
+                return View(product);
+            }
         }
+            
+            
 
 
         [AllowAnonymous]

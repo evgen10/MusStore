@@ -69,7 +69,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (Model.Image==null)
+                @if (Model.Image.Count()==0)
                 {
                     <img class="img-thumbnail" width="250" height="250" src="~/Content/Img/undefined.png" />
 
