@@ -25,51 +25,68 @@ namespace StoreBL.Services
 
         public async Task<ClaimsIdentity> Authenticate(string email, string password)
         {
-            ClaimsIdentity claim = null;
-            // находим пользователя
-            ApplicationUser user = await db.UserManager.FindAsync(email, password);
-            // авторизуем его и возвращаем объект ClaimsIdentity
-            if (user != null)
-                claim = await db.UserManager.CreateIdentityAsync(user,
-                                            DefaultAuthenticationTypes.ApplicationCookie);
-            return claim;
+            try
+            {
+                ClaimsIdentity claim = null;
+                // находим пользователя
+                ApplicationUser user = await db.UserManager.FindAsync(email, password);
+                // авторизуем его и возвращаем объект ClaimsIdentity
+                if (user != null)
+                {
+                    claim = await db.UserManager.CreateIdentityAsync(user,
+                                                DefaultAuthenticationTypes.ApplicationCookie);
+                }
+
+                return claim;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public async Task<OperationDetails> Create(ApplicationUser usr, string password)
         {
-            ApplicationUser user = await db.UserManager.FindByEmailAsync(usr.Email);   
-
-            if (user == null)
+            try
             {
-                user = new ApplicationUser
-                {
-                    FirstName = usr.FirstName,
-                    LastName = usr.LastName,
-                    Email = usr.Email,
-                    Address = usr.Address,
-                    CityId = usr.CityId,
-                    UserName = usr.Email,
-                    PhoneNumber = usr.PhoneNumber
-                };
+                ApplicationUser user = await db.UserManager.FindByEmailAsync(usr.Email);
 
-                var result = await db.UserManager.CreateAsync(user, password);
-
-                if (!result.Succeeded)
+                if (user == null)
                 {
-                    return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
+                    user = new ApplicationUser
+                    {
+                        FirstName = usr.FirstName,
+                        LastName = usr.LastName,
+                        Email = usr.Email,
+                        Address = usr.Address,
+                        CityId = usr.CityId,
+                        UserName = usr.Email,
+                        PhoneNumber = usr.PhoneNumber
+                    };
+
+                    var result = await db.UserManager.CreateAsync(user, password);
+
+                    if (!result.Succeeded)
+                    {
+                        return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
+                    }
+
+                    db.UserManager.AddToRole(user.Id, "User");
+                    db.Save();
+
+                    return new OperationDetails(true, "Регистрация успешно пройдена", "");
+
                 }
-
-                db.UserManager.AddToRole(user.Id, "User");
-                db.Save();
-
-                return new OperationDetails(true, "Регистрация успешно пройдена", "");
-
+                else
+                {
+                    return new OperationDetails(false, "Пользователь с таким логином уже существует", "Email");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return new OperationDetails(false, "Пользователь с таким логином уже существует", "Email");
+
+                throw new Exception(e.Message);
             }
-            
         }
 
 
@@ -82,27 +99,48 @@ namespace StoreBL.Services
 
         public IEnumerable<ApplicationUser> GetUsers()
         {
+            try
+            {
+                return db.Users.GetAll();
+            }
+            catch (Exception e)
+            {
 
-            return db.Users.GetAll();
-
+                throw new Exception(e.Message);
+            }
         }
 
         public IEnumerable<ApplicationUser> GetUsers(OrderStatus status)
         {
+            try
+            {
 
-            var users = from u in db.Users.GetAll()
-                        from o in u.Orders
-                        where o.OrderStatus == OrderStatus.IsOrdered
-                        select u;
+                var users = from u in db.Users.GetAll()
+                            from o in u.Orders
+                            where o.OrderStatus == OrderStatus.IsOrdered
+                            select u;
 
-            return users.Distinct();
+                return users.Distinct();
+            }
+            catch (Exception e)
+            {
 
+                throw new Exception(e.Message);
+            }
         }
 
 
         public ApplicationUser  GetUserById(string userId)
         {
-            return db.UserManager.FindById(userId);
+            try
+            {
+                return db.UserManager.FindById(userId);
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
 
         }
        

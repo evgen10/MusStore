@@ -33,128 +33,182 @@ namespace Store.Controllers
 
        
         public ActionResult Index()
-        {            
-            var users = userService.GetUsers(OrderStatus.IsOrdered);
-
-            if (users!=null)
+        {
+            try
             {
-                ViewBag.Users = users;
+                var users = userService.GetUsers(OrderStatus.IsOrdered);
 
-                return View();
+                if (users != null)
+                {
+                    ViewBag.Users = users;
+                    
+
+                    return View();
+
+                    
+                }
+                else
+                {
+                    return View("Error", new string[] { "Покупатели не найдены" });
+                }
             }
-            else
+            catch (Exception e)
             {
-                return View("Error", new string[] { "Покупатели не найдены" });
-            }          
+                return View("Error", new string[] { e.Message });
 
+            }
         }
 
         public ActionResult GetConfirmedOrders(OrderSorts orderSort = OrderSorts.ByCount)
         {
-            IEnumerable<Order> orders;
-
-            switch (orderSort)
+            try
             {
-                case OrderSorts.ByCount:
-                    {
-                        orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.Count);
-                        break;
-                    }
-                case OrderSorts.ByUser:
-                    {
-                        orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.ApplicationUser.FirstName);
-                        break;
-                    }
-                case OrderSorts.ByCost:
-                    {
-                        orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.Cost);
-                        break;
-                    }
-                case OrderSorts.ByConfirmDate:
-                    {
-                        orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.ConfirmDate);
-                        break;
+               
+               
 
-                    }
-                case OrderSorts.ByOrderDate:
-                    {
-                        orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.OrderDate);
-                        break;
-                    }
-                case OrderSorts.ByProduct:
-                    {
-                        orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.ProductId);
-                        break;
-                    }
-                default:
-                    {
-                        orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.Count);
-                        break;
-                    }
+
+                IEnumerable<Order> orders;
+
+                switch (orderSort)
+                {
+                    case OrderSorts.ByCount:
+                        {
+                            orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.Count);
+                            break;
+                        }
+                    case OrderSorts.ByUser:
+                        {
+                            orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.ApplicationUser.FirstName);
+                            break;
+                        }
+                    case OrderSorts.ByCost:
+                        {
+                            orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.Cost);
+                            break;
+                        }
+                    case OrderSorts.ByConfirmDate:
+                        {
+                            orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.ConfirmDate);
+                            break;
+
+                        }
+                    case OrderSorts.ByOrderDate:
+                        {
+                            orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.OrderDate);
+                            break;
+                        }
+                    case OrderSorts.ByProduct:
+                        {
+                            orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.ProductId);
+                            break;
+                        }
+                    default:
+                        {
+                            orders = orderService.GetConfirmedOrders().OrderByDescending(o => o.Count);
+                            break;
+                        }
+                }
+
+                return View(orders);
             }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
 
-            return View(orders);
+            }
 
         }
 
         //выводит заказы по определенному покупателю
         public ActionResult Orders(string userId)
         {
-            var orders = orderService.GetOrdersByUserId(userId);
+            try
+            {
+                var orders = orderService.GetOrdersByUserId(userId);
 
-            ViewBag.TotalCost = orders.Sum(o => o.Cost);
+                ViewBag.TotalCost = orders.Sum(o => o.Cost);
 
-            return PartialView(orders);
+                return PartialView(orders);
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
         }
 
         //Подтверждает заказы покупателя
         public ActionResult Confirm(string userId)
         {
-            var orders = orderService.GetOrdersByUserId(userId);
+            try
+            {
+                var orders = orderService.GetOrdersByUserId(userId);
 
-            if (orders != null)
-            {
-                orderService.Confirm(orders);
-                return RedirectToAction("Index");
+                if (orders != null)
+                {
+                    orderService.Confirm(orders);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View("Error", new string[] { "Покупатель не найден" });
+                }
             }
-            else
+            catch (Exception e)
             {
-                return View("Error", new string[] { "Покупатель не найден" });
+                return View("Error", new string[] { e.Message });
+
             }
-            
+
 
         }
 
         public ActionResult Delete(int id)
         {
-            var order = orderService.GetOrderById(id);
-
-            if (order != null)
+            try
             {
-                orderService.RemoveOrder(order);
-            }
-            else
-            {
-                return View("Error", new string[] { "Заказ не найден" });
-            }
+                var order = orderService.GetOrderById(id);
 
-            return RedirectToAction("GetConfirmedOrders");
+                if (order != null)
+                {
+                    orderService.RemoveOrder(order);
+                }
+                else
+                {
+                    return View("Error", new string[] { "Заказ не найден" });
+                }
+
+                return RedirectToAction("GetConfirmedOrders");
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
 
         }
 
         public ActionResult UserInfo(string id)
         {
-            var user = userService.GetUserById(id);
+            try
+            {
+                var user = userService.GetUserById(id);
 
-            if (user != null)
-            {
-                return View(user);
+                if (user != null)
+                {
+                    return View(user);
+                }
+                else
+                {
+                    return View("Error", new string[] { "Покупатель на найден" });
+                }
             }
-            else
+            catch (Exception e)
             {
-                return View("Error", new string[] { "Покупатель на найден" });
+                return View("Error", new string[] { e.Message });
+
             }
-            
+
 
         }
 

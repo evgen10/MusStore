@@ -23,7 +23,15 @@ namespace StoreBL.Services
 
         public IEnumerable<City> GetAllCities()
         {
-            return db.Cities.GetAll();
+            try
+            {
+                return db.Cities.GetAll();
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
         }
 
 

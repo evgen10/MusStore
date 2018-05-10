@@ -13,13 +13,13 @@ using System.Web.Mvc;
 using AutoMapper;
 
 namespace Store.Controllers
-{    
+{
     public class HomeController : Controller
-    {    
+    {
         private readonly ICategoryService categoryService;
         private readonly IProductService productService;
         private readonly IBrandService brandService;
-        
+
         public HomeController(ICategoryService categoryService, IProductService productService, IBrandService brandService, IUserService userService)
         {
             this.categoryService = categoryService;
@@ -29,41 +29,85 @@ namespace Store.Controllers
         }
 
         // GET: Home
-                
+
         public ActionResult Index()
         {
-            int topCount = 10;
 
-            //самые покупаемые товары
-            var top = productService.GetTopProducts(topCount);
+            try
+            {
+                int topCount = 6;
 
-            var products = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(top);
+                //самые покупаемые товары
+                var top = productService.GetTopProducts(topCount);
 
-            return View(products);
+                var products = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(top);
+
+                return View(products);
+
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
+
         }
-        
-      
-        public PartialViewResult Menu()
+
+
+        public ActionResult Menu()
         {
-            var category = categoryService.GetAllMainCategories();
+            try
+            {
+                var category = categoryService.GetAllMainCategories();
 
-            return PartialView(category);
+                return PartialView(category);
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
         }
-        
-       
+
+
+
+        public ActionResult Search(string key)
+        {
+           // key = "Map";
+
+            var product = productService.GetAll().Where(p => p.Title.Contains(key));
+
+            var prd = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(product);
+
+
+            return View("Index",prd);
+
+        }
+
+
         public ActionResult List(int id = 0)
         {
-            //товары по определенной подкатегории
-            var product = productService.GetProductsByCategory(id);
 
-            var brand = brandService.GetAllBrands();
+            try
+            {
+                //товары по определенной подкатегории
+                var product = productService.GetProductsByCategory(id);
 
-            ViewBag.Category = categoryService.GetSubCategoryById(id).CategoryName;                     
+                var brand = brandService.GetAllBrands();
 
-            var products = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(product);
-                             
+                ViewBag.Category = categoryService.GetSubCategoryById(id).CategoryName;
 
-            return View(products);
+                var products = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(product);
+
+
+                return View(products);
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
+
 
         }
 

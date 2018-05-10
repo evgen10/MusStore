@@ -65,3 +65,6 @@ C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\obj\Debug\StoreD
 C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\obj\Debug\StoreData.csproj.CopyComplete
 C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\obj\Debug\StoreData.dll
 C:\Users\iammr\Desktop\Новая папка\MusStore\StoreData\obj\Debug\StoreData.pdb
+D:\Программирование\EPAM2018\MusStore\StoreData\bin\Debug\ru\Microsoft.AspNet.Identity.Core.resources.dll
+D:\Программирование\EPAM2018\MusStore\StoreData\bin\Debug\ru\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+D:\Программирование\EPAM2018\MusStore\StoreData\bin\Debug\ru\Microsoft.AspNet.Identity.Owin.resources.dll

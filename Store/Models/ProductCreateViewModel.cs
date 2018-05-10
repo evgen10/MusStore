@@ -34,6 +34,9 @@ namespace Store.Models
         [Display(Name = "Описание")]
         public string Description { get; set; }
 
+                
+        public int Count { get; set; }
+
         [Required]
         [Display(Name = "Цена")]
         public decimal Price { get; set; }

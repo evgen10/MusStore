@@ -31,6 +31,8 @@
 
 
                 <ul class="nav navbar-nav">
+                    <li>@Html.Partial("Search")</li>
+
                     @if (User.IsInRole("Administrator"))
                     {
                         <li>@Html.ActionLink("Товары", "Index", "Product")</li>

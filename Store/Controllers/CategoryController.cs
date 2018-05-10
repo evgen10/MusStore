@@ -23,65 +23,98 @@ namespace Store.Controllers
         // GET: Category
         public ActionResult Index()
         {
-            var category = categoryService.GetAllMainCategories();
+            try
+            {
+                var category = categoryService.GetAllMainCategories();
 
-            return View(category);
+                return View(category);
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
         }
+
 
         // GET: Category/Create
         public ActionResult CreateMainCategory()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
         }
 
         // POST: Category/Create
         [HttpPost]
         public ActionResult CreateMainCategory(CreateCategoryViewModel category)
         {
-            //В главной категории всегда должны быть подкатегории
-            //При создании главной категории добавляем подкатегорию
-            List<SubCategory> subCategories = new List<SubCategory>
+            try
+            {
+                //В главной категории всегда должны быть подкатегории
+                //При создании главной категории добавляем подкатегорию
+                List<SubCategory> subCategories = new List<SubCategory>
                 {
                       new SubCategory { CategoryName = category.SubCategoryName }
                 };
 
-            MainCategory mainCategory = new MainCategory
-            {
-                CategoryName = category.MainCategoryName,
-                SubCategories = subCategories
-            };
+                MainCategory mainCategory = new MainCategory
+                {
+                    CategoryName = category.MainCategoryName,
+                    SubCategories = subCategories
+                };
 
-            //проверяем существует ли категория с таким именем
-            if (categoryService.Exists(mainCategory))
-            {
-                ModelState.AddModelError("MainCategoryName", "Категория с таким именем уже существует");
+                //проверяем существует ли категория с таким именем
+                if (categoryService.Exists(mainCategory))
+                {
+                    ModelState.AddModelError("MainCategoryName", "Категория с таким именем уже существует");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    categoryService.CreateMainCategory(mainCategory);
+                    return RedirectToAction("Index");
+
+                }
+
+                return View(category);
             }
-
-            if (ModelState.IsValid)
+            catch (Exception e)
             {
-                categoryService.CreateMainCategory(mainCategory);
-                return RedirectToAction("Index");
+                return View("Error", new string[] { e.Message });
 
             }
-
-            return View(category);
         }
 
         // GET: Category/Edit/5
         public ActionResult EditMainCategory(int id)
         {
-            var mainCategory = categoryService.GetMainCategoryById(id);
-
-            if (mainCategory != null)
+            try
             {
-                var mainCat = Mapper.Map<MainCategory, EditCategoryViewModel>(mainCategory);
+                var mainCategory = categoryService.GetMainCategoryById(id);
 
-                return View(mainCat);
+                if (mainCategory != null)
+                {
+                    var mainCat = Mapper.Map<MainCategory, EditCategoryViewModel>(mainCategory);
 
+                    return View(mainCat);
+
+                }
+                else
+                {
+                    return View("Error", new string[] { "Категория не найдена" });
+                }
             }
-            else
+            catch (Exception e)
             {
-                return View("Error", new string[] { "Категория не найдена" });
+                return View("Error", new string[] { e.Message });
+
             }
 
 
@@ -91,33 +124,48 @@ namespace Store.Controllers
         [HttpPost]
         public ActionResult EditMainCategory(EditCategoryViewModel mainCategory)
         {
-
-            if (ModelState.IsValid)
+            try
             {
-                var mainCat = Mapper.Map<EditCategoryViewModel, MainCategory>(mainCategory);
 
-                categoryService.UpdateMainCategory(mainCat);
+                if (ModelState.IsValid)
+                {
+                    var mainCat = Mapper.Map<EditCategoryViewModel, MainCategory>(mainCategory);
 
-                return RedirectToAction("Index");
+                    categoryService.UpdateMainCategory(mainCat);
+
+                    return RedirectToAction("Index");
+
+                }
+
+                return View(mainCategory);
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
 
             }
-
-            return View(mainCategory);
-
         }
 
         // GET: Category/Delete/5
         public ActionResult DeleteMainCategory(int id)
         {
-            var mainCategory = categoryService.GetMainCategoryById(id);
+            try
+            {
+                var mainCategory = categoryService.GetMainCategoryById(id);
 
-            if (mainCategory != null)
-            {
-                return View(mainCategory);
+                if (mainCategory != null)
+                {
+                    return View(mainCategory);
+                }
+                else
+                {
+                    return View("Error", new string[] { "Категория не найдена" });
+                }
             }
-            else
+            catch (Exception e)
             {
-                return View("Error", new string[] { "Категория не найдена" });
+                return View("Error", new string[] { e.Message });
+
             }
 
         }
@@ -128,49 +176,73 @@ namespace Store.Controllers
         public ActionResult DeleteMainCategoryPost(int id)
         {
 
-            var mainCategory = categoryService.GetMainCategoryById(id);
-
-            if (mainCategory != null)
+            try
             {
-                categoryService.DeleteMainCategory(mainCategory);
-            }
-            else
-            {
-                return View("Error", new string[] { "Категория не найдена" });
-            }
 
-            return RedirectToAction("Index");
+                var mainCategory = categoryService.GetMainCategoryById(id);
+
+                if (mainCategory != null)
+                {
+                    categoryService.DeleteMainCategory(mainCategory);
+                }
+                else
+                {
+                    return View("Error", new string[] { "Категория не найдена" });
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
 
         }
 
         // GET: Category/Create
         public ActionResult CreateSubCategory(int mainCategoryId)
         {
+            try
+            {
 
-            ViewBag.MainCategoryId = mainCategoryId;
+                ViewBag.MainCategoryId = mainCategoryId;
 
-            return View();
+                return View();
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
         }
 
         // POST: Category/Create
         [HttpPost]
         public ActionResult CreateSubCategory(SubCategoryViewModel subCategory)
         {
-
-            var subCat = Mapper.Map<SubCategoryViewModel, SubCategory>(subCategory);
-
-            if (categoryService.Exists(subCat))
+            try
             {
-                ModelState.AddModelError("CategoryName", "Подкатегория с таким именем уже существует");
-            }
+                var subCat = Mapper.Map<SubCategoryViewModel, SubCategory>(subCategory);
 
-            if (ModelState.IsValid)
+                if (categoryService.Exists(subCat))
+                {
+                    ModelState.AddModelError("CategoryName", "Подкатегория с таким именем уже существует");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    categoryService.CreateSubCategory(subCat);
+                    return RedirectToAction("Index");
+                }
+
+                return View(subCategory);
+            }
+            catch (Exception e)
             {
-                categoryService.CreateSubCategory(subCat);
-                return RedirectToAction("Index");
-            }
+                return View("Error", new string[] { e.Message });
 
-            return View(subCategory);
+            }
 
 
         }
@@ -178,26 +250,33 @@ namespace Store.Controllers
         // GET: Category/Edit/5
         public ActionResult EditSubCategory(int id)
         {
-            var subCategory = categoryService.GetSubCategoryById(id);
-
-            if (subCategory != null)
+            try
             {
-                var subCat = Mapper.Map<SubCategory, SubCategoryViewModel>(subCategory);
+                var subCategory = categoryService.GetSubCategoryById(id);
+
+                if (subCategory != null)
+                {
+                    var subCat = Mapper.Map<SubCategory, SubCategoryViewModel>(subCategory);
 
 
-                IEnumerable<MainCategory> categories = categoryService.GetAllMainCategories();
-                int selectedCategory = subCat.MainCategoryId;
+                    IEnumerable<MainCategory> categories = categoryService.GetAllMainCategories();
+                    int selectedCategory = subCat.MainCategoryId;
 
-                SelectList category = new SelectList(categories, "Id", "CategoryName", selectedCategory);
-                ViewBag.Category = category;
+                    SelectList category = new SelectList(categories, "Id", "CategoryName", selectedCategory);
+                    ViewBag.Category = category;
 
-                return View(subCat);
+                    return View(subCat);
+                }
+                else
+                {
+                    return View("Error", new string[] { "Категория не найдена" });
+                }
             }
-            else
+            catch (Exception e)
             {
-                return View("Error", new string[] { "Категория не найдена" });
-            }
+                return View("Error", new string[] { e.Message });
 
+            }
 
         }
 
@@ -205,64 +284,78 @@ namespace Store.Controllers
         [HttpPost]
         public ActionResult EditSubCategory(SubCategoryViewModel subCategory)
         {
-
-            if (ModelState.IsValid)
+            try
             {
-                var subCat = Mapper.Map<SubCategoryViewModel, SubCategory>(subCategory);
-                var prevSubCat = categoryService.GetSubCategoryById(subCategory.Id);
-
-                //проверяем была ли изменена главная категория
-                if (subCat.MainCategoryId != prevSubCat.MainCategoryId)
+                if (ModelState.IsValid)
                 {
-                    //получаем главную категорию которая была до изменения
-                    var prevMainCat = categoryService.GetMainCategoryById(prevSubCat.MainCategoryId);
+                    var subCat = Mapper.Map<SubCategoryViewModel, SubCategory>(subCategory);
+                    var prevSubCat = categoryService.GetSubCategoryById(subCategory.Id);
 
-
-                    //если данная подкатегория последняя в главной категории
-                    if (prevMainCat.SubCategories.Count < 2)
+                    //проверяем была ли изменена главная категория
+                    if (subCat.MainCategoryId != prevSubCat.MainCategoryId)
                     {
+                        //получаем главную категорию которая была до изменения
+                        var prevMainCat = categoryService.GetMainCategoryById(prevSubCat.MainCategoryId);
 
-                        //обновляем подкатегорию
-                        categoryService.UpdateSubCategory(subCat);
+
+                        //если данная подкатегория последняя в главной категории
+                        if (prevMainCat.SubCategories.Count < 2)
+                        {
+
+                            //обновляем подкатегорию
+                            categoryService.UpdateSubCategory(subCat);
 
 
-                        //удаляем главную категорию, так как в ней не осталось подкатегорий
-                        categoryService.DeleteMainCategory(prevMainCat);
+                            //удаляем главную категорию, так как в ней не осталось подкатегорий
+                            categoryService.DeleteMainCategory(prevMainCat);
 
-                        return RedirectToAction("Index");
+                            return RedirectToAction("Index");
+                        }
+
                     }
+
+                    categoryService.UpdateSubCategory(subCat);
+
+                    return RedirectToAction("Index");
 
                 }
 
-                categoryService.UpdateSubCategory(subCat);
+                IEnumerable<MainCategory> categories = categoryService.GetAllMainCategories();
+                int selectedCategory = subCategory.MainCategoryId;
 
-                return RedirectToAction("Index");
+                SelectList category = new SelectList(categories, "Id", "CategoryName", selectedCategory);
+                ViewBag.Category = category;
+
+                return View(subCategory);
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
 
             }
-
-            IEnumerable<MainCategory> categories = categoryService.GetAllMainCategories();
-            int selectedCategory = subCategory.MainCategoryId;
-
-            SelectList category = new SelectList(categories, "Id", "CategoryName", selectedCategory);
-            ViewBag.Category = category;
-
-            return View(subCategory);
         }
 
         // GET: Category/Delete/5
         public ActionResult DeleteSubCategory(int id)
         {
-            var subCategory = categoryService.GetSubCategoryById(id);
-
-            if (subCategory != null)
+            try
             {
-                return View(subCategory);
-            }
-            else
-            {
-                return View("Error", new string[] { "Подкатегория не найдена" });
-            }
+                var subCategory = categoryService.GetSubCategoryById(id);
 
+                if (subCategory != null)
+                {
+                    return View(subCategory);
+                }
+                else
+                {
+                    return View("Error", new string[] { "Подкатегория не найдена" });
+                }
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
 
         }
 
@@ -271,31 +364,40 @@ namespace Store.Controllers
         [ActionName("DeleteSubCategory")]
         public ActionResult DeleteSubCategoryPost(int id)
         {
-
-            var subCategory = categoryService.GetSubCategoryById(id);
-            var category = categoryService.GetMainCategoryById(subCategory.MainCategoryId);
-
-            if (subCategory != null)
+            try
             {
-                if (category.SubCategories.Count < 2)
+                var subCategory = categoryService.GetSubCategoryById(id);
+                var category = categoryService.GetMainCategoryById(subCategory.MainCategoryId);
+
+                if (subCategory != null)
                 {
-                    //удаляем главную категорию если данная подкатегория была в ней последней
-                    categoryService.DeleteMainCategory(category);
+                    if (category.SubCategories.Count < 2)
+                    {
+                        //удаляем главную категорию если данная подкатегория была в ней последней
+                        categoryService.DeleteMainCategory(category);
+                    }
+
+
+                    categoryService.DeleteSubCategory(subCategory);
+                }
+                else
+                {
+                    return View("Error", new string[] { "Подкатегория не найдена" });
                 }
 
-                
-                categoryService.DeleteSubCategory(subCategory);
+                return RedirectToAction("Index");
+
             }
-            else
+            catch (Exception e)
             {
-                return View("Error", new string[] { "Подкатегория не найдена" });
+                return View("Error", new string[] { e.Message });
+
             }
 
-            return RedirectToAction("Index");
+
+
+
 
         }
-
-
-
     }
 }

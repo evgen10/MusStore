@@ -51,24 +51,48 @@ namespace StoreBL.Services
 
         public IEnumerable<Brand> GetAllBrands()
         {
-            
-            return db.Brands.GetAll();
+            try
+            {
+
+                return db.Brands.GetAll();
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
         }
 
         public Brand GetBrandById(int brandId)
         {
-            return db.Brands.Get(brandId);
-            
-           
+            try
+            {
+                return db.Brands.Get(brandId);
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+
+
         }
 
         public void UpdateBrand(Brand brand)
         {
-            var brnd = db.Brands.Get(brand.Id);
+            try
+            {
 
-            brnd.Name = brand.Name;
-            db.Brands.Update(brnd);
+                var brnd = db.Brands.Get(brand.Id);
 
+                brnd.Name = brand.Name;
+                db.Brands.Update(brnd);
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
         }
 
 

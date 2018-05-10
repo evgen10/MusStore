@@ -11,7 +11,7 @@ using StoreModel.Models;
 namespace Store.Controllers
 {
 
-    [Authorize(Roles ="Administrator")]
+    [Authorize(Roles = "Administrator")]
     public class BrandController : Controller
     {
         private readonly IBrandService brandService;
@@ -23,84 +23,132 @@ namespace Store.Controllers
 
         public ActionResult Index()
         {
-            var brands = brandService.GetAllBrands();
+            try
+            {
+                var brands = brandService.GetAllBrands();
 
-            var brandModels = Mapper.Map<IEnumerable<Brand>, IEnumerable<BrandViewModel>>(brands);
+                var brandModels = Mapper.Map<IEnumerable<Brand>, IEnumerable<BrandViewModel>>(brands);
 
-            return View(brandModels);
+                return View(brandModels);
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
         }
-        
+
         public ActionResult Create()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
         }
 
         [HttpPost]
         public ActionResult Create(BrandViewModel brand)
         {
-            var brnd = Mapper.Map<BrandViewModel, Brand>(brand);
-
-            if (brandService.Exists(brnd))
-            {
-                ModelState.AddModelError("Name", "Объект с таким именем уже существует.");
-            }
-
-            if (ModelState.IsValid)
-            {              
-
-                brandService.CreateBrand(brnd);
-
-                return RedirectToAction("Index", "Brand");
-            }
-
-            return View(brand);
-        }
-        
-        public ActionResult Edit(int id)
-        {
-            var brand = brandService.GetBrandById(id);
-
-            if (brand != null)
-            {
-                var brnd = Mapper.Map<Brand, BrandViewModel>(brand);
-                return View(brnd);
-            }
-            else
-            {
-                return View("Error", new string[] { "Бренд не найден" });
-            }
-
-        }
-        
-        [HttpPost]
-        public ActionResult Edit(BrandViewModel brand)
-        {    
-           
-            if (ModelState.IsValid)
+            try
             {
                 var brnd = Mapper.Map<BrandViewModel, Brand>(brand);
-                brandService.UpdateBrand(brnd);
 
-                return RedirectToAction("Index");
-                
-            }
+                if (brandService.Exists(brnd))
+                {
+                    ModelState.AddModelError("Name", "Объект с таким именем уже существует.");
+                }
 
-            return View(brand);
+                if (ModelState.IsValid)
+                {
 
-        }
-        
-        public ActionResult Delete(int id)
-        {
-            var brand = brandService.GetBrandById(id);
+                    brandService.CreateBrand(brnd);
 
-            if (brand!=null)
-            {
+                    return RedirectToAction("Index", "Brand");
+                }
+
                 return View(brand);
             }
-            else
+            catch (Exception e)
             {
-                return View("Error", new string[] { "Бренд не найден" });
-            }                       
+                return View("Error", new string[] { e.Message });
+
+            }
+        }
+
+        public ActionResult Edit(int id)
+        {
+            try
+            {
+                var brand = brandService.GetBrandById(id);
+
+                if (brand != null)
+                {
+                    var brnd = Mapper.Map<Brand, BrandViewModel>(brand);
+                    return View(brnd);
+                }
+                else
+                {
+                    return View("Error", new string[] { "Бренд не найден" });
+                }
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult Edit(BrandViewModel brand)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var brnd = Mapper.Map<BrandViewModel, Brand>(brand);
+                    brandService.UpdateBrand(brnd);
+
+                    return RedirectToAction("Index");
+
+                }
+
+                return View(brand);
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
+
+
+        }
+
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                var brand = brandService.GetBrandById(id);
+
+                if (brand != null)
+                {
+                    return View(brand);
+                }
+                else
+                {
+                    return View("Error", new string[] { "Бренд не найден" });
+                }
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
 
         }
 
@@ -108,20 +156,27 @@ namespace Store.Controllers
         [ActionName("Delete")]
         public ActionResult DeleteBrand(int id)
         {
-
-            var brand = brandService.GetBrandById(id);
-
-            if (brand!=null)
+            try
             {
-                brandService.DeleteBrand(brand);
-               
-            }
-            else
-            {
-                return View("Error", new string[] { "Бренд не найден" });
-            }
+                var brand = brandService.GetBrandById(id);
 
-            return RedirectToAction("Index");
+                if (brand != null)
+                {
+                    brandService.DeleteBrand(brand);
+
+                }
+                else
+                {
+                    return View("Error", new string[] { "Бренд не найден" });
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
 
         }
 

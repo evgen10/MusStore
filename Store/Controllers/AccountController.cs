@@ -11,6 +11,7 @@ using StoreModel.Models;
 using StoreBL.Utils;
 using StoreBL.Services;
 using AutoMapper;
+using System;
 
 namespace Store.Controllers
 {
@@ -27,8 +28,18 @@ namespace Store.Controllers
 
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
+            try
+            {
+                ViewBag.ReturnUrl = returnUrl;
+                return View();
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
+
+
         }
 
 
@@ -36,91 +47,149 @@ namespace Store.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel login, string returnUrl)
         {
-            if (ModelState.IsValid)
+            try
             {
-                ClaimsIdentity claim = await userService.Authenticate(login.Email, login.Password);
+                if (ModelState.IsValid)
+                {
+                    ClaimsIdentity claim = await userService.Authenticate(login.Email, login.Password);
 
-                if (claim == null)
-                {
-                    ModelState.AddModelError("", "Неверный логин или пароль.");
-                }
-                else
-                {
-                    AuthenticationManager.SignOut();
-                    AuthenticationManager.SignIn(new AuthenticationProperties
+                    if (claim == null)
                     {
-                        IsPersistent = true
-                    }, claim);
+                        ModelState.AddModelError("", "Неверный логин или пароль.");
+                    }
+                    else
+                    {
+                        AuthenticationManager.SignOut();
+                        AuthenticationManager.SignIn(new AuthenticationProperties
+                        {
+                            IsPersistent = true
+                        }, claim);
 
-                     return RedirectToLocal(returnUrl);
+                        return RedirectToLocal(returnUrl);
+                    }
                 }
-            }
 
-            return View(login);
+                return View(login);
+
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
 
         }
 
         public ActionResult Logout()
         {
-            AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            try
+            {
+                AuthenticationManager.SignOut();
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
         }
 
         public ActionResult Register()
         {
-            var cities = cityService.GetAllCities();
+            try
+            {
+                var cities = cityService.GetAllCities();
 
-            SelectList city = new SelectList(cities, "Id", "Name");
-            ViewBag.City = city;
+                SelectList city = new SelectList(cities, "Id", "Name");
+                ViewBag.City = city;
 
-            return View();
+                return View();
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            ApplicationUser user = Mapper.Map<RegisterViewModel, ApplicationUser>(model);
-        
-            if (ModelState.IsValid)
-            {                          
-                             
-                OperationDetails operationDetails = await userService.Create(user,model.Password);
+            try
+            {
+                ApplicationUser user = Mapper.Map<RegisterViewModel, ApplicationUser>(model);
 
-                if (operationDetails.Succedeed)
+
+             
+
+                var phone  = user.PhoneNumber;
+
+                int result;
+
+                if (!int.TryParse(phone,out result))
                 {
-                    ClaimsIdentity claim = await userService.Authenticate(model.Email, model.Password);
+                    ModelState.AddModelError("Phone","Не телефон");
+                }          
 
-                    AuthenticationManager.SignOut();
-                    AuthenticationManager.SignIn(new AuthenticationProperties
+               
+
+                
+
+
+                if (ModelState.IsValid)
+                {
+
+                    OperationDetails operationDetails = await userService.Create(user, model.Password);
+
+                    if (operationDetails.Succedeed)
                     {
-                        IsPersistent = true
-                    }, claim);
+                        ClaimsIdentity claim = await userService.Authenticate(model.Email, model.Password);
 
-                    return RedirectToAction("Index", "Home");
+                        AuthenticationManager.SignOut();
+                        AuthenticationManager.SignIn(new AuthenticationProperties
+                        {
+                            IsPersistent = true
+                        }, claim);
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
+
+                    }
                 }
-                else
-                {
-                    ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
-                    
-                }
+
+                var cities = cityService.GetAllCities();
+                SelectList city = new SelectList(cities, "Id", "Name", user.CityId);
+                ViewBag.CityId = city;
+
+                return View(model);
             }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
 
-            var cities = cityService.GetAllCities();
-            SelectList city = new SelectList(cities, "Id", "Name", user.CityId);
-            ViewBag.CityId = city;
-
-            return View(model);
+            }
         }
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
-            if (Url.IsLocalUrl(returnUrl))
+            try
             {
-                return Redirect(returnUrl);
+                if (Url.IsLocalUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+                return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Index", "Home");
-        }       
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
+        }
 
 
         private IAuthenticationManager AuthenticationManager
@@ -129,7 +198,7 @@ namespace Store.Controllers
             {
                 return HttpContext.GetOwinContext().Authentication;
             }
-        }    
+        }
 
     }
 }

@@ -13,51 +13,109 @@ namespace StoreData.Infrastructure
     {        
         private readonly StoreContext db;
 
+
         protected Repository(StoreContext context)
         {
-            db = context;
+            db = context;            
         }
 
         public virtual void Create(T entity)
         {
-            db.Set<T>().Add(entity);
+            try
+            {
+                db.Set<T>().Add(entity);
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
 
         }
 
         public virtual void Delete(T entity)
         {
-            db.Set<T>().Remove(entity);
+            try
+            {
+                db.Set<T>().Remove(entity);
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
         }
 
         public virtual void Update(T entity)
         {
+            try
+            {
+                //Присоединяет заданную сущность к контексту, поддерживающему данный набор. Это означает, 
+                //что сущность помещается в контекст в неизмененном состоянии, как если бы она была считана из базы данных.
+                db.Set<T>().Attach(entity);
+                db.Entry(entity).State = EntityState.Modified;
+            }
+            catch (Exception e)
+            {
 
-
-            //Присоединяет заданную сущность к контексту, поддерживающему данный набор. Это означает, 
-            //что сущность помещается в контекст в неизмененном состоянии, как если бы она была считана из базы данных.
-            db.Set<T>().Attach(entity);
-            db.Entry(entity).State = EntityState.Modified;
+                throw new Exception(e.Message);
+            }
 
         }
 
         public virtual T Get(int id)
         {
-            return db.Set<T>().Find(id);
+            try
+            {
+                return db.Set<T>().Find(id);
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+
         }
 
         public virtual T Get(Expression<Func<T, bool>> where)
         {
-            return db.Set<T>().Where(where).FirstOrDefault();
+            try
+            {
+                return db.Set<T>().Where(where).FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
         }
 
         public virtual IEnumerable<T> GetAll()
         {
-            return db.Set<T>().ToList();
+            try
+            {
+                return db.Set<T>().ToList();
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+
         }
 
         public virtual IEnumerable<T> GetMany(Expression<Func<T, bool>> where)
         {
-            return db.Set<T>().Where(where).ToList();
+            try
+            {
+                return db.Set<T>().Where(where).ToList();
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+
         }
 
 

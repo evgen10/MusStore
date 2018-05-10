@@ -31,12 +31,11 @@ namespace StoreModel.Models
 
         public int OrderCount { get; set; }
 
-        public int SubCategoryId { get; set; }       
+        public int SubCategoryId { get; set; }
 
         public int BrandId { get; set; }
 
         public byte[] Image { get; set; }
-
 
         public virtual SubCategory SubCategory { get; set; }
 

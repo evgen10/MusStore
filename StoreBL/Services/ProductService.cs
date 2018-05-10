@@ -23,66 +23,125 @@ namespace StoreBL.Services
 
         public void CreateProduct(Product product)
         {
-            db.Products.Create(product);
-            db.Save();
+
+            try
+            {
+                db.Products.Create(product);
+                db.Save();
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
         }
 
         public void DeleteProduct(Product product)
         {
+            try
+            {
 
-            db.Products.Delete(product);
-            db.Save();
+
+                db.Products.Delete(product);
+                db.Save();
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
 
         }
 
+
+
         public IEnumerable<Product> GetAll()
         {
-            return db.Products.GetAll();    
-            
+            try
+            {
+                return db.Products.GetAll();
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+
+
         }
 
         public Product GetProductById(int productId)
         {
 
+            try
+            {
+                return db.Products.Get(productId);
+            }
+            catch (Exception e)
+            {
 
-            return db.Products.Get(productId);
-
+                throw new Exception(e.Message);
+            }
         }
 
         public IEnumerable<Product> GetProductsByCategory(int categoryId)
         {
+            try
+            {
+                return db.Products.GetMany(p => p.SubCategoryId == categoryId);
+            }
+            catch (Exception e)
+            {
 
-            return db.Products.GetMany(p => p.SubCategoryId == categoryId);
-
+                throw new Exception(e.Message);
+            }
         }
-        
-     
+
+
 
         public IEnumerable<Product> GetTopProducts(int count)
-        {            
+        {
+            try
+            {
+                var popularProduts = db.Products.GetAll().OrderByDescending(p => p.OrderCount);
 
-            var popularProduts = db.Products.GetAll().OrderByDescending(p => p.OrderCount);
+                return popularProduts.Take(count);
+            }
+            catch (Exception e)
+            {
 
-            return popularProduts.Take(count);
+                throw new Exception(e.Message);
+            }
+
 
         }
 
         public void UpdateProduct(Product product)
         {
-
-            Product prd = GetProductById(product.Id);
-
-            prd.BrandId = product.BrandId;
-        
-            prd.Description = product.Description;
-            prd.Price = product.Price;
-            prd.SubCategoryId = product.SubCategoryId;
-            prd.Title = product.Title;
-            prd.Image = product.Image;
+            try
+            {
 
 
-            db.Products.Update(prd);
-            db.Save();
+
+                Product prd = GetProductById(product.Id);
+
+                prd.BrandId = product.BrandId;
+
+                prd.Description = product.Description;
+                prd.Price = product.Price;
+                prd.SubCategoryId = product.SubCategoryId;
+                prd.Title = product.Title;
+                prd.Image = product.Image;
+
+
+                db.Products.Update(prd);
+                db.Save();
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
         }
 
 

@@ -27,72 +27,104 @@ namespace Store.Controllers
         // GET: Cart
         public ActionResult Index()
         {
-            //получаем  id пользователя использующего приложение 
-            string userId = User.Identity.GetUserId();
+            try
+            {
+                //получаем  id пользователя использующего приложение 
+                string userId = User.Identity.GetUserId();
 
-            var productsInCart = orderService.GetProductsInCartByUserId(userId);
-            var productInCartModel = Mapper.Map<IEnumerable<Order>, IEnumerable<CartViewModel>>(productsInCart);
+                var productsInCart = orderService.GetProductsInCartByUserId(userId);
+                var productInCartModel = Mapper.Map<IEnumerable<Order>, IEnumerable<CartViewModel>>(productsInCart);
 
-            ///общая сумма в корзине
-            decimal totalCost = productInCartModel.Sum(t => t.Cost);
+                ///общая сумма в корзине
+                decimal totalCost = productInCartModel.Sum(t => t.Cost);
 
-            ViewBag.TotalCost = totalCost;
+                ViewBag.TotalCost = totalCost;
 
-            return View(productInCartModel);
+                return View(productInCartModel);
+            }
+            catch (Exception e)
+            {
+                return View("Error", new string[] { e.Message });
+
+            }
 
         }
 
         public ActionResult AddProductToCart(int productId)
         {
-            string userId = User.Identity.GetUserId();
-
-            var product = productService.GetProductById(productId);
-
-            if (product != null)
+            try
             {
-                orderService.AddToCart(product, userId);
-                return RedirectToAction("Index");
+                string userId = User.Identity.GetUserId();
 
+                var product = productService.GetProductById(productId);
+
+                if (product != null)
+                {
+                    orderService.AddToCart(product, userId);
+                    return RedirectToAction("Index");
+
+                }
+                else
+                {
+                    return View("Error", new string[] { "Товар не найден" });
+                }
             }
-            else
+            catch (Exception e)
             {
-                return View("Error", new string[] { "Товар не найден" });
+                return View("Error", new string[] { e.Message });
+
             }
 
         }
 
         public ActionResult DeleteOrder(int id)
         {
-            var order = orderService.GetOrderById(id);
-
-            if (order != null)
+            try
             {
-                orderService.RemoveOrder(order);
+                var order = orderService.GetOrderById(id);
 
-                return RedirectToAction("Index");
+                if (order != null)
+                {
+                    orderService.RemoveOrder(order);
 
+                    return RedirectToAction("Index");
+
+                }
+                else
+                {
+                    return View("Error", new string[] { "Товар не найден" });
+
+                }
             }
-            else
+            catch (Exception e)
             {
-                return View("Error", new string[] { "Товар не найден" });
+                return View("Error", new string[] { e.Message });
 
             }
         }
 
         public ActionResult Checkout()
         {
-            string userId = User.Identity.GetUserId();
-
-            var productsInCart = orderService.GetProductsInCartByUserId(userId);
-
-            if (productsInCart != null)
+            try
             {
-                orderService.Checkout(productsInCart);
-                return View("OrderSucceed");
+                string userId = User.Identity.GetUserId();
+
+                var productsInCart = orderService.GetProductsInCartByUserId(userId);
+
+                if (productsInCart != null)
+                {
+                    orderService.Checkout(productsInCart);
+                    return View("OrderSucceed");
+                }
+                else
+                {
+                    return View("Error", new string[] { "Товар не найден" });
+
+                }
             }
-            else
+            catch (Exception e)
             {
-                return View("Error", new string[] { "Товар не найден" });
+                return View("Error", new string[] { e.Message });
 
             }
 

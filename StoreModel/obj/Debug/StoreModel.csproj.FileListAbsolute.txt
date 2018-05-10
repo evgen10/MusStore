@@ -32,3 +32,5 @@ C:\Users\iammr\Desktop\Новая папка\MusStore\StoreModel\obj\Debug\Store
 C:\Users\iammr\Desktop\Новая папка\MusStore\StoreModel\obj\Debug\StoreModel.csproj.CopyComplete
 C:\Users\iammr\Desktop\Новая папка\MusStore\StoreModel\obj\Debug\StoreModel.dll
 C:\Users\iammr\Desktop\Новая папка\MusStore\StoreModel\obj\Debug\StoreModel.pdb
+D:\Программирование\EPAM2018\MusStore\StoreModel\bin\Debug\ru\Microsoft.AspNet.Identity.Core.resources.dll
+D:\Программирование\EPAM2018\MusStore\StoreModel\bin\Debug\ru\Microsoft.AspNet.Identity.EntityFramework.resources.dll
